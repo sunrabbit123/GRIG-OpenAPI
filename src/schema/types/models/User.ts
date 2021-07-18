@@ -14,12 +14,19 @@ export const User = objectType({
     t.int("followers");
     t.int("following");
     t.string("repos_url");
-    // t.list.field("repo", {
+    t.int("public_repos");
+    // t.list.field("repos", {
     //   type: "Repository",
     //   resolve: async (root: any, _, __) => {
     //     return 1;
     //   },
     // });
+    t.string("company");
+    t.string("blog");
+    t.string("location");
+    t.string("email");
+    t.string("bio");
+    t.string("twitter_username");
     t.int("star", {
       resolve: async (root: any, _, __) => {
         return 1;

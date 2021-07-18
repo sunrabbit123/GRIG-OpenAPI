@@ -1,5 +1,6 @@
 import { GithubAPI } from "../util";
 
 export const getUser: Function = async (nickname: string) => {
-  return await GithubAPI.getUserByNickName(nickname);
+  const data = await GithubAPI.getUserByNickName(nickname);
+  return Object.assign({ nickname: data.login }, data);
 };
