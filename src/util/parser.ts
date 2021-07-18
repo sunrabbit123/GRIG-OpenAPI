@@ -2,7 +2,7 @@ import axios, { AxiosResponse, Method } from "axios";
 
 export interface RequestObject {
   url: string;
-  data: unknown;
+  data: Object;
   method: Method;
 }
 
