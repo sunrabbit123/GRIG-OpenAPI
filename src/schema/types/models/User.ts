@@ -1,5 +1,5 @@
 import { objectType } from "nexus";
-
+import { UserService } from "../../../service";
 export const User = objectType({
   name: "User",
   definition(t) {
@@ -8,7 +8,7 @@ export const User = objectType({
     t.string("nickname");
     t.int("contribution", {
       resolve: async (root: any, _, __) => {
-        return 1;
+        return await UserService.getCommitCount(root.nickname);
       },
     });
     t.int("followers");

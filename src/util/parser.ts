@@ -4,6 +4,7 @@ export interface RequestObject {
   url: string;
   data: Object;
   method: Method;
+  header: Object;
 }
 
 export const sendRequest: Function = async (
@@ -13,9 +14,7 @@ export const sendRequest: Function = async (
     method: arg.method,
     url: arg.url,
     data: arg.data,
-    headers: {
-      "Content-Type": "application/json",
-    },
+    headers: arg.header,
   });
   return res;
 };

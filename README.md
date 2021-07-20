@@ -1,2 +1,5 @@
 # Github-Rangkin-for-GSM
+
 GSM의 깃헙 랭킹을 구현하는 OpenAPI 서버입니다.
+
+commit 산정 방법은 github api를 이용하여 받아온 것이지만, 다소 오차가 있습니다.
