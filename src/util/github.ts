@@ -11,8 +11,6 @@ const getGraphQLApi: Function = (variables: Object) => {
     query: `
     query userInfo($login: String!) {
       user(login: $login) {
-        name
-        login
         contributionsCollection {
           totalCommitContributions
           restrictedContributionsCount
@@ -26,15 +24,13 @@ const getGraphQLApi: Function = (variables: Object) => {
         issues(first: 1) {
           totalCount
         }
-        followers {
-          totalCount
-        }
         repositories(first: 100, ownerAffiliations: OWNER, orderBy: {direction: DESC, field: STARGAZERS}) {
           totalCount
           nodes {
             stargazers {
               totalCount
             }
+            forkCount
           }
         }
       }
@@ -63,7 +59,7 @@ export const getUserByNickName: Function = async (
   return userData.data;
 };
 
-export const getCommitsByUser: Function = async (
+export const getActivityByUser: Function = async (
   nickname: string
 ): Promise<Object> => {
   const [url, query] = getGraphQLApi({ login: nickname });
