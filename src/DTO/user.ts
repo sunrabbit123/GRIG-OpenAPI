@@ -18,3 +18,16 @@ export interface UserInform {
   bio: string | null;
   twitter_username: string | null;
 }
+
+export interface UserUpdateInput {
+  generation: number;
+  contributions: number;
+  pullRequests: number;
+  issues: number;
+  repositoriesContributedTo: number;
+  publicRepositories: number;
+  stared: number;
+  forked: number;
+  followers: number;
+  following: number;
+}
