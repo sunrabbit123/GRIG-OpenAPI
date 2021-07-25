@@ -1,7 +1,7 @@
 "user strict";
 
 export type eventType = {
-  body: Object;
+  body: { [k: string]: string };
   headers: {
     Host: string;
     Connection: string;
@@ -32,14 +32,14 @@ export type eventType = {
     "Accept-Encoding": Array<string>;
     "Accept-Language": Array<string>;
   };
-  multiValueQueryStringParameters: Object;
+  multiValueQueryStringParameters: { [k: string]: string };
   path: string;
-  pathParameters: unknown;
-  queryStringParameters: Object;
+  pathParameters: any;
+  queryStringParameters: { [k: string]: string };
   requestContext: {
     accountId: string;
     apiId: string;
-    authorizer: Object;
+    authorizer: { [k: string]: string };
     domainName: string;
     domainPrefix: string;
     extendedRequestId: string;
@@ -54,7 +54,7 @@ export type eventType = {
       cognitoAuthenticationType: string;
       cognitoIdentityId: string;
       cognitoIdentityPoolId: string;
-      principalOrgId: unknown;
+      principalOrgId: any;
       sourceIp: string;
       user: string;
       userAgent: string;
