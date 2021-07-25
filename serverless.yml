@@ -39,7 +39,13 @@ functions:
           path: graphql
           method: get
           cors: true
-
+  auth:
+    handler: handler.authUser
+    events:
+      - http:
+          path: auth
+          method: get
+          cors: true
 package:
   patterns:
     - "!node_modules/**/query-engine-**"
