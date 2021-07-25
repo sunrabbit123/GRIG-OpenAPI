@@ -1,10 +1,14 @@
 import { RequestObject, sendRequest } from "./parser";
 import { UserDTO } from "../DTO";
 import { AxiosResponse } from "axios";
+import { url } from "inspector";
 
-const getUserApiUrl: Function = (nickname: string): string => {
+export const getUserApiUrl: Function = (nickname: string): string => {
   return `https://api.github.com/users/${nickname}`;
 };
+
+export const getAccessTokenByCodeUrl: string =
+  "https://github.com/login/oauth/access_token";
 
 const getGraphQLApi: Function = (variables: Object) => {
   const query = {
@@ -75,4 +79,26 @@ export const getActivityByUser: Function = async (
   };
   const result: AxiosResponse = await sendRequest(body);
   return result.data.data.user;
+};
+
+export const getAccessTokenByCode: Function = async (
+  code: string
+): Promise<Object> => {
+  const header = {
+    Accept: "application/json",
+  };
+  const data = {
+    client_id: process.env.client_id,
+    client_secret: process.env.client_secret,
+    code: code,
+    redirect_uri: process.env.redirect_uri,
+  };
+  const body: RequestObject = {
+    url: getAccessTokenByCodeUrl,
+    method: "POST",
+    data: data,
+    header: header,
+  };
+  const result: AxiosResponse = await sendRequest(body);
+  return result.data;
 };
