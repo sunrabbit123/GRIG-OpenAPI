@@ -5,7 +5,7 @@ import {
   DocumentType,
 } from "@typegoose/typegoose";
 import { ModelType } from "@typegoose/typegoose/lib/types";
-import { INFORMATION_DTO, UserDTO } from "DTO";
+import { INFORMATION_DTO, UserDTO } from "../DTO";
 import { Schema } from "mongoose";
 
 @modelOptions({
@@ -18,6 +18,9 @@ import { Schema } from "mongoose";
 })
 export class Users {
   public _id!: Schema.Types.ObjectId;
+
+  @prop({ required: true })
+  public accessToken!: string;
 
   @prop({ required: true })
   public name!: string;
