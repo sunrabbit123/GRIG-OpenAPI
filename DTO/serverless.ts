@@ -34,7 +34,7 @@ export type eventType = {
   };
   multiValueQueryStringParameters: { [k: string]: string };
   path: string;
-  pathParameters: any;
+  pathParameters: { [k: string]: string };
   queryStringParameters: { [k: string]: string };
   requestContext: {
     accountId: string;
