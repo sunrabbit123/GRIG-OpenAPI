@@ -40,12 +40,16 @@ functions:
           method: get
           cors: true
   auth:
-    handler: handler.authUser
+    handler: handler.authUserByOAuth
     events:
       - http:
           path: auth
           method: get
-          cors: true
+          cors: false
+      - http:
+          path: auth/email
+          method: get
+          cors: false
 package:
   patterns:
     - "!node_modules/**/query-engine-**"
