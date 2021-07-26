@@ -2,9 +2,12 @@ import * as jwt from "jsonwebtoken";
 
 const jwtSecret = process.env.JWT_SECRET_KEY ?? "";
 
-export const generateToken: Function = (payload: Object): String => {
+export const generateToken: Function = (
+  payload: Object,
+  expiresIn: string | number | undefined
+): String => {
   return jwt.sign(payload, jwtSecret, {
-    expiresIn: "5M", // 만료일 5분
+    expiresIn: expiresIn, // 만료일 5분
   });
 };
 
