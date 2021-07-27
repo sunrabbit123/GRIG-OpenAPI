@@ -46,8 +46,11 @@ functions:
           path: auth
           method: get
           cors: false
+  email_auth:
+    handler: handler.authUserByEmail
+    events:
       - http:
-          path: auth/email
+          path: email/{jwt_token}
           method: get
           cors: false
 package:
