@@ -1,0 +1,70 @@
+.container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.form-container {
+    width: 30rem;
+    height: 30rem;
+    border: 1px solid #DB7770;
+    border-radius: 10px;
+}
+
+.auth-form {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 15% 10% 20% 10%;
+    flex-direction: column;
+}
+
+.form-title > h2 {
+    font-size: 2rem;
+    text-align: center;
+}
+
+.form {
+    width: 100%;
+    margin-top: auto;
+}
+
+.status {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+}
+
+.status > p {
+    display: none;
+}
+
+.form > input {
+    background: none;
+    border: 0.3px solid #DB7770;
+    width: 100%;
+    padding: 15px 20px;
+    border-radius: 5px;
+    outline: none;
+    font-size: 1rem;
+}
+
+.form > button {
+    padding: 15px;
+    float: right;
+    margin-top: 6%;
+}
+
+.contents {
+    width: 30rem;
+    height: 30rem;
+    display: flex;
+    flex-direction: column;
+    justify-content:space-between;
+}
+
+.contents-title > h2 {
+    padding: .8rem 0;
+
+}

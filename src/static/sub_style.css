@@ -1,0 +1,32 @@
+.container {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+    height: 50%;
+}
+
+.container > div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.title {
+    text-align: center;
+}
+
+.title > h2 {
+    margin-top: 1rem;
+    width: 100%;
+}
+
+.btn-div {
+    text-align: right;
+}
+
+.check-btn {
+    padding: 5%;
+    font-size: 1rem;
+}
