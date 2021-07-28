@@ -28,8 +28,8 @@ export class Users {
   @prop({ required: true })
   public nickname!: string;
 
-  @prop({ required: true })
-  public generation!: number;
+  @prop({})
+  public generation?: number;
 
   @prop({ default: 0 })
   public contributions?: number;
