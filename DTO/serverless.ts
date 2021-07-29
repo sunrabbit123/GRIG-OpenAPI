@@ -1,7 +1,7 @@
 "user strict";
 
 export type eventType = {
-  body: { [k: string]: string };
+  body: { [k: string]: string } | string;
   headers: {
     Host: string;
     Connection: string;
