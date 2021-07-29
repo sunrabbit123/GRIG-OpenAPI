@@ -16,18 +16,31 @@
               <h2>GRIG</h2>
               <p class="font-color">Github Rank in GSM</p>
             </div>
-            <form class="form" action="#" method="POST">
+            <form
+              class="form"
+              action="http://localhost:3000/dev/send-email"
+              method="POST"
+              target="ifm1"
+              enctype="application/json"
+            >
               <div class="status">
                 <p class="valid-time font-color">유효시간 5:00</p>
                 <p class="send gray-color">인증메일이 전송되었습니다.</p>
               </div>
               <input
                 class="form-input"
+                name="email"
                 placeholder="이메일을 입력하세요"
                 type="email"
               />
-              <input class="jwt" type="hidden" />
-              <button class="valid-btn btn">인증하기</button>
+              <input class="jwt" name="jwt" type="hidden" />
+              <button
+                class="valid-btn btn"
+                type="submit"
+                onclick="submitAndStartTimer()"
+              >
+                인증하기
+              </button>
             </form>
           </div>
         </div>
@@ -47,5 +60,6 @@
       </div>
     </div>
     <script src="./email.js"></script>
+    <iframe id="ifm1" name="ifm1" style="display: none"></iframe>
   </body>
 </html>

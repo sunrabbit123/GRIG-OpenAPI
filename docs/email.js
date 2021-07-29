@@ -17,9 +17,7 @@ function Timer() {
   }
 }
 
-validBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-
+function submitAndStartTimer() {
   validTime.style.display = "block";
   sendMessage.style.display = "block";
 
@@ -28,7 +26,8 @@ validBtn.addEventListener("click", (e) => {
 
   Timer();
   loop = setInterval(Timer, 1000);
-});
+  return false;
+}
 
 const jwt = new URLSearchParams(window.location.search)
   .get("jwt")
