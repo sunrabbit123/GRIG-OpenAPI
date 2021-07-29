@@ -1,12 +1,12 @@
 import { RequestObject, sendRequest } from "./parser";
 import { UserDTO } from "../DTO";
 import { AxiosResponse } from "axios";
-import { url } from "inspector";
 
 export const getUserApiUrl: Function = (nickname: string): string => {
   return `https://api.github.com/users/${nickname}`;
 };
 
+export const getUserByTokenUrl: string = "https://api.github.com/user";
 export const getAccessTokenByCodeUrl: string =
   "https://github.com/login/oauth/access_token";
 
@@ -43,6 +43,24 @@ const getGraphQLApi: Function = (variables: Object) => {
     variables: variables,
   };
   return [`https://api.github.com/graphql`, query];
+};
+
+export const getUserByToken: Function = async (
+  token: string
+): Promise<{ name: string; nickname: string }> => {
+  const header: Object = {
+    Accept: "application/vnd.github.cloak-preview+json",
+    Authorization: `token ${token}`,
+  };
+  const body: RequestObject = {
+    url: getUserByTokenUrl,
+    method: "GET",
+    data: {},
+    header: header,
+  };
+  const userData: AxiosResponse = await sendRequest(body);
+  const { name, login } = userData.data;
+  return { name: name, nickname: login };
 };
 
 export const getUserByNickName: Function = async (
