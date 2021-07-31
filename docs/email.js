@@ -1,7 +1,7 @@
 const validTime = document.querySelector(".valid-time");
 const validBtn = document.querySelector(".valid-btn");
 const sendMessage = document.querySelector(".send");
-const jwtInput = document.querySelector(".jwt");
+const codeInput = document.querySelector(".code");
 
 let disabled = true;
 let timer;
@@ -29,9 +29,9 @@ function submitAndStartTimer() {
   return false;
 }
 
-const jwt = new URLSearchParams(window.location.search)
-  .get("jwt")
+const code = new URLSearchParams(window.location.search)
+  .get("code")
   .replace("<", "&lt;")
   .replace(">", "&gt;")
   .replace('"', "&quot;");
-jwtInput.value = jwt;
+codeInput.value = code;
