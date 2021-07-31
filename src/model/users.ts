@@ -72,6 +72,14 @@ export class Users {
     this.following = arg.following;
     await this.save();
   }
+  public async updateGeneration(
+    this: DocumentType<Users>,
+    generation: number
+  ): Promise<void> {
+    this.generation = generation;
+    await this.save();
+  }
+
   public static async getRanking(
     this: ModelType<Users> & typeof Users,
     options: INFORMATION_DTO.GetRankingInput
@@ -83,7 +91,14 @@ export class Users {
       .exec();
     return userList;
   }
+
+  public static async findUserFromNickname(
+    this: ModelType<Users> & typeof Users,
+    nickname: string
+  ): Promise<DocumentType<Users>> {
+    const user = await this.findOne({ nickname: nickname });
+    return user;
+  }
 }
 
-const UserModel = getModelForClass(Users);
-export default UserModel;
+export const UserModel = getModelForClass(Users);
