@@ -5,7 +5,7 @@ import {
   DocumentType,
 } from "@typegoose/typegoose";
 import { ModelType } from "@typegoose/typegoose/lib/types";
-import { INFORMATION_DTO, UserDTO } from "DTO";
+import { INFORMATION_DTO, UserDTO } from "../DTO";
 import { Schema } from "mongoose";
 
 @modelOptions({
@@ -20,13 +20,16 @@ export class Users {
   public _id!: Schema.Types.ObjectId;
 
   @prop({ required: true })
+  public accessToken!: string;
+
+  @prop({ required: true })
   public name!: string;
 
   @prop({ required: true })
   public nickname!: string;
 
-  @prop({ required: true })
-  public generation!: number;
+  @prop({})
+  public generation?: number;
 
   @prop({ default: 0 })
   public contributions?: number;
@@ -69,6 +72,14 @@ export class Users {
     this.following = arg.following;
     await this.save();
   }
+  public async updateGeneration(
+    this: DocumentType<Users>,
+    generation: number
+  ): Promise<void> {
+    this.generation = generation;
+    await this.save();
+  }
+
   public static async getRanking(
     this: ModelType<Users> & typeof Users,
     options: INFORMATION_DTO.GetRankingInput
@@ -80,7 +91,14 @@ export class Users {
       .exec();
     return userList;
   }
+
+  public static async findUserFromNickname(
+    this: ModelType<Users> & typeof Users,
+    nickname: string
+  ): Promise<DocumentType<Users>> {
+    const user = await this.findOne({ nickname: nickname });
+    return user;
+  }
 }
 
-const UserModel = getModelForClass(Users);
-export default UserModel;
+export const UserModel = getModelForClass(Users);

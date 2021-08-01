@@ -1,0 +1,74 @@
+"user strict";
+
+export type eventType = {
+  body: { [k: string]: string } | string;
+  headers: {
+    Host: string;
+    Connection: string;
+    "sec-ch-ua": string;
+    "sec-ch-ua-mobile": string;
+    "Upgrade-Insecure-Requests": string;
+    "User-Agent": string;
+    Accept: string;
+    "Sec-Fetch-Site": string;
+    "Sec-Fetch-Mode": string;
+    "Sec-Fetch-Dest": string;
+    "Accept-Encoding": string;
+    "Accept-Language": string;
+  };
+  httpMethod: string;
+  isBase64Encoded: boolean;
+  multiValueHeaders: {
+    Host: Array<string>;
+    Connection: Array<string>;
+    "sec-ch-ua": Array<string>;
+    "sec-ch-ua-mobile": Array<string>;
+    "Upgrade-Insecure-Requests": Array<string>;
+    "User-Agent": Array<string>;
+    Accept: Array<string>;
+    "Sec-Fetch-Site": Array<string>;
+    "Sec-Fetch-Mode": Array<string>;
+    "Sec-Fetch-Dest": Array<string>;
+    "Accept-Encoding": Array<string>;
+    "Accept-Language": Array<string>;
+  };
+  multiValueQueryStringParameters: { [k: string]: string };
+  path: string;
+  pathParameters: { [k: string]: string };
+  queryStringParameters: { [k: string]: string };
+  requestContext: {
+    accountId: string;
+    apiId: string;
+    authorizer: { [k: string]: string };
+    domainName: string;
+    domainPrefix: string;
+    extendedRequestId: string;
+    httpMethod: string;
+    identity: {
+      accessKey: null;
+      accountId: string;
+      apiKey: string;
+      apiKeyId: string;
+      caller: string;
+      cognitoAuthenticationProvider: string;
+      cognitoAuthenticationType: string;
+      cognitoIdentityId: string;
+      cognitoIdentityPoolId: string;
+      principalOrgId: any;
+      sourceIp: string;
+      user: string;
+      userAgent: string;
+      userArn: string;
+    };
+    path: string;
+    protocol: string;
+    requestId: string;
+    requestTime: string;
+    requestTimeEpoch: BigInt;
+    resourceId: string;
+    resourcePath: string;
+    stage: string;
+  };
+  resource: string;
+  stageVariables: boolean;
+};

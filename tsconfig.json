@@ -17,6 +17,6 @@
     "strict": true,
     "allowSyntheticDefaultImports": true
   },
-  "include": ["./src/**/*"],
+  "include": ["./src/**/*", "DTO/*", "static"],
   "exclude": ["src/**/*.spec.ts", "src/**/*.test.ts", "node_modules"]
 }
