@@ -40,21 +40,21 @@ functions:
           method: get
           cors: true
   auth:
-    handler: handler.authUserByOAuth
+    handler: auth.authUserByOAuth
     events:
       - http:
           path: auth
           method: get
           cors: false
   email_auth:
-    handler: handler.authUserByEmail
+    handler: auth.authUserByEmail
     events:
       - http:
           path: email/{jwt_token}
           method: get
           cors: false
   send_email:
-    handler: handler.authEmail
+    handler: auth.authEmail
     events:
       - http:
           path: send-email
