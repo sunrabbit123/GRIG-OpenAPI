@@ -64,13 +64,13 @@ exports.authEmail = async (
   const code = searchPrams.get("code");
   const email = searchPrams.get("email");
 
-  if (email.slice(-10) !== "@gsm.hs.kr" && email.startsWith("s")) {
+  if (email.slice(-10) !== "@gsm.hs.kr" || !email.startsWith("s")) {
     return cb(null, createRes(400, { detail: "GSM 학생 계정이어야합니다." }));
   }
 
   const data = verifyToken(code);
 
-  await sendAuthMessage(email, data.nickname);
+  await sendAuthMessage({ receiver: email, nickname: data.nickname });
   cb(null, createRes(204));
 };
 
