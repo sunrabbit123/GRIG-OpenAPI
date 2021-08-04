@@ -37,15 +37,15 @@ exports.authUserByOAuth = async (
   const access_token = (await getAccessTokenByCode(data.code)).access_token;
   const { name, nickname } = await getUserByToken(access_token);
 
-  const code = generateToken({ name: name, nickname: nickname }, "5m");
-  // 겹친다면 기존에 존재하는 유저 삭제 로직 추가 필요
+  const code = generateToken({ name: name, nickname: nickname });
+
   await createUser({
     accessToken: access_token,
     name: name,
     nickname: nickname,
-  });
+  }); // redis 필요
+
   cb(
-    // redis로 교체 해야됨
     null,
     createRes(
       302,
@@ -68,9 +68,9 @@ exports.authEmail = async (
     return cb(null, createRes(400, { detail: "GSM 학생 계정이어야합니다." }));
   }
 
-  const data = verifyToken(code);
-
-  await sendAuthMessage({ receiver: email, nickname: data.nickname });
+  const nickname = verifyToken(code).nickname;
+  const jwt = generateToken({ email: email, nickname: nickname }, "5m"); // redis로 대체
+  await sendAuthMessage({ receiver: email, nickname: nickname, jwt: jwt });
   cb(null, createRes(204));
 };
 

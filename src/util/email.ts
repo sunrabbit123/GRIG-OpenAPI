@@ -4,6 +4,7 @@ import { generateToken } from "./token";
 export const sendAuthMessage: Function = async (arg: {
   receiver: string;
   nickname: string;
+  jwt: string;
 }) => {
   const transpoter: nodemailer.Transporter = nodemailer.createTransport({
     service: "gmail",
@@ -13,8 +14,7 @@ export const sendAuthMessage: Function = async (arg: {
     },
   });
 
-  const { receiver, nickname } = arg;
-  const jwt = generateToken({ email: receiver, nickname: nickname }, "5m");
+  const { receiver, nickname, jwt } = arg;
 
   const mailOptions: nodemailer.SendMailOptions = {
     from: `GRIG CA ${process.env.MAIL_ID as string}`,
