@@ -87,7 +87,10 @@ exports.authUserByEmail = async (
   const generation: number = email.slice(1, 3) * 1 - 16;
   const user = findUserFromNickname(data.nickname);
   await user.updateGeneration(generation);
-  cb(null, createRes(200, { asdf: "asdf" }));
+  cb(
+    null,
+    createRes(302, {}, { Location: `${process.env.AUTH_BASEURL}complete.html` })
+  );
 };
 
 const createUser: Function = async (data: CreateUserInterface) => {
