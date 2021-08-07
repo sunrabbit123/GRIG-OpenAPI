@@ -1,5 +1,4 @@
 import * as nodemailer from "nodemailer";
-import { generateToken } from "./token";
 
 export const sendAuthMessage: Function = async (arg: {
   receiver: string;

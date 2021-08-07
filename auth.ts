@@ -8,7 +8,6 @@ import { UserModel } from "./src/model/users";
 import { getAccessTokenByCode, getUserByToken } from "./src/util/github";
 import { generateToken, verifyToken } from "./src/util/token";
 import { sendAuthMessage } from "./src/util/email";
-import { JsonWebTokenError } from "jsonwebtoken";
 
 interface CreateUserInterface {
   access_token: string;
