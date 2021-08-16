@@ -16,8 +16,10 @@ const getGraphQLApi: Function = (variables: Object) => {
     query userInfo($login: String!) {
       user(login: $login) {
         contributionsCollection {
-          totalCommitContributions
           restrictedContributionsCount
+          contributionCalendar{
+            totalContributions
+        }
         }
         repositoriesContributedTo(first: 1, contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY]) {
           totalCount
