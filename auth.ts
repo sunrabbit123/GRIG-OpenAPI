@@ -5,18 +5,14 @@ import * as mongoose from "mongoose";
 import { serverless_DTO } from "./DTO";
 
 import { UserModel } from "./src/model/users";
-import { Code, CodeModel } from "./src/model/code";
+import { CodeModel } from "./src/model/code";
 
 import { getAccessTokenByCode, getUserByToken } from "./src/util/github";
 import { generateToken, verifyToken } from "./src/util/token";
 import { sendAuthMessage } from "./src/util/email";
 
-interface CreateUserInterface {
-  access_token: string;
-  name: string;
-  nickname: string;
-  generation: number;
-}
+import { deleteUserByNickname, createUser, createToken } from "./util/user";
+
 const createRes: Function = (
   status: number,
   body?: Object,
@@ -40,7 +36,8 @@ exports.authUserByOAuth = async (
 
   const code = generateToken({ nickname: nickname }, "180m");
 
-  // TODO 생성 전 같은 유저가 있는지 확인, 있으면 삭제 후 재생성
+  await deleteUserByNickname(nickname);
+
   await createUser({
     accessToken: access_token,
     name: name,
@@ -112,39 +109,4 @@ exports.authUserByEmail = async (
     {},
     { Location: `${process.env.AUTH_BASEURL}complete.html` }
   );
-};
-
-const createUser: Function = async (data: CreateUserInterface) => {
-  mongoose
-    .connect(process.env.MongoDBUrl ?? "", {
-      useFindAndModify: false,
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    })
-    .then((): void => console.log("MongoDB connected"))
-    .catch((err: Error): void =>
-      console.log("Failed to connect MongoDB: ", err)
-    );
-  const result = await new UserModel(data).save();
-  return result;
-};
-
-const createToken: Function = async (data: {
-  email: string;
-  nickname: string;
-}) => {
-  mongoose
-    .connect(process.env.MongoDBUrl ?? "", {
-      useFindAndModify: false,
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    })
-    .then((): void => console.log("MongoDB connected"))
-    .catch((err: Error): void =>
-      console.log("Failed to connect MongoDB: ", err)
-    );
-  const result = await new CodeModel(data).save();
-  return result;
 };
