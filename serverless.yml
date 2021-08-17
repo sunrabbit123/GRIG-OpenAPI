@@ -48,13 +48,17 @@ functions:
           cors: false
   email_auth:
     handler: auth.authUserByEmail
+    environment:
+      STAGE: ${sls:stage}
     events:
       - http:
-          path: email/{jwt_token}
+          path: email/{token}
           method: get
           cors: false
   send_email:
     handler: auth.authEmail
+    environment:
+      STAGE: ${sls:stage}
     events:
       - http:
           path: send-email

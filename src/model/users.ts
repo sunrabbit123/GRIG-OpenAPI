@@ -6,7 +6,7 @@ import {
 } from "@typegoose/typegoose";
 import { ModelType } from "@typegoose/typegoose/lib/types";
 import { INFORMATION_DTO, UserDTO } from "../DTO";
-import { Schema } from "mongoose";
+import * as mongoose from "mongoose";
 
 @modelOptions({
   schemaOptions: {
@@ -17,7 +17,7 @@ import { Schema } from "mongoose";
   },
 })
 export class Users {
-  public _id!: Schema.Types.ObjectId;
+  public _id!: mongoose.Types.ObjectId;
 
   @prop({ required: true })
   public accessToken!: string;
@@ -55,7 +55,7 @@ export class Users {
   @prop({ default: 0 })
   public following?: number;
 
-  public get id(): Schema.Types.ObjectId {
+  public get id(): mongoose.Types.ObjectId {
     return this._id;
   }
   public async updateActivity(
