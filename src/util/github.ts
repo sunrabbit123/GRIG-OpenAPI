@@ -30,6 +30,12 @@ const getGraphQLApi: Function = (variables: Object) => {
         issues(first: 1) {
           totalCount
         }
+        followers{
+          totalCount
+        }
+        following{
+            totalCount
+        }
         repositories(first: 100, ownerAffiliations: OWNER, orderBy: {direction: DESC, field: STARGAZERS}) {
           totalCount
           nodes {

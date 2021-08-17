@@ -11,7 +11,12 @@ import { getAccessTokenByCode, getUserByToken } from "./src/util/github";
 import { generateToken, verifyToken } from "./src/util/token";
 import { sendAuthMessage } from "./src/util/email";
 
-import { deleteUserByNickname, createUser, createToken } from "./util/user";
+import {
+  deleteUserByNickname,
+  createUser,
+  createToken,
+  updateUserInformation,
+} from "./util/user";
 
 const createRes: Function = (
   status: number,
@@ -77,11 +82,7 @@ exports.authEmail = async (
   cb(null, createRes(204));
 };
 
-exports.authUserByEmail = async (
-  event: serverless_DTO.eventType,
-  _: any,
-  cb: Function
-) => {
+exports.authUserByEmail = async (event: serverless_DTO.eventType, _: any) => {
   mongoose
     .connect(process.env.MongoDBUrl ?? "", {
       useFindAndModify: false,
@@ -100,8 +101,9 @@ exports.authUserByEmail = async (
   const generation: number = email.slice(1, 3) * 1 - 16;
 
   const user = await UserModel.findUserFromNickname(nickname);
-  await user.updateGeneration(generation);
 
+  await user.updateGeneration(generation);
+  await updateUserInformation(nickname);
   await CodeModel.findByIdAndDelete(dataId);
 
   return createRes(

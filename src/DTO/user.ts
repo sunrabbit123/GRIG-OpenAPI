@@ -20,7 +20,6 @@ export interface UserInform {
 }
 
 export interface UserUpdateInput {
-  generation: number;
   contributions: number;
   pullRequests: number;
   issues: number;
