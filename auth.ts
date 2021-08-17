@@ -5,6 +5,8 @@ import * as mongoose from "mongoose";
 import { serverless_DTO } from "./DTO";
 
 import { UserModel } from "./src/model/users";
+import { Code, CodeModel } from "./src/model/code";
+
 import { getAccessTokenByCode, getUserByToken } from "./src/util/github";
 import { generateToken, verifyToken } from "./src/util/token";
 import { sendAuthMessage } from "./src/util/email";
@@ -36,13 +38,14 @@ exports.authUserByOAuth = async (
   const access_token = (await getAccessTokenByCode(data.code)).access_token;
   const { name, nickname } = await getUserByToken(access_token);
 
-  const code = generateToken({ name: name, nickname: nickname });
+  const code = generateToken({ nickname: nickname }, "180m");
 
+  // TODO 생성 전 같은 유저가 있는지 확인, 있으면 삭제 후 재생성
   await createUser({
     accessToken: access_token,
     name: name,
     nickname: nickname,
-  }); // redis 필요
+  });
 
   cb(
     null,
@@ -68,8 +71,12 @@ exports.authEmail = async (
   }
 
   const nickname = verifyToken(code).nickname;
-  const jwt = generateToken({ email: email, nickname: nickname }, "5m"); // redis로 대체
-  await sendAuthMessage({ receiver: email, nickname: nickname, jwt: jwt });
+  const token = await createToken({ email: email, nickname: nickname });
+  await sendAuthMessage({
+    receiver: email,
+    nickname: nickname,
+    token: token.id,
+  });
   cb(null, createRes(204));
 };
 
@@ -78,17 +85,32 @@ exports.authUserByEmail = async (
   _: any,
   cb: Function
 ) => {
-  const { jwt } = event.pathParameters;
+  mongoose
+    .connect(process.env.MongoDBUrl ?? "", {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    })
+    .then((): void => console.log("MongoDB connected"))
+    .catch((err: Error): void =>
+      console.log("Failed to connect MongoDB: ", err)
+    );
+  const dataId = event.pathParameters["token"];
+  const data = await CodeModel.findById(dataId);
 
-  const data = verifyToken(jwt);
-  const email = data.email;
-
+  const { email, nickname } = data;
   const generation: number = email.slice(1, 3) * 1 - 16;
-  const user = findUserFromNickname(data.nickname);
+
+  const user = await UserModel.findUserFromNickname(nickname);
   await user.updateGeneration(generation);
-  cb(
-    null,
-    createRes(302, {}, { Location: `${process.env.AUTH_BASEURL}complete.html` })
+
+  await CodeModel.findByIdAndDelete(dataId);
+
+  return createRes(
+    302,
+    {},
+    { Location: `${process.env.AUTH_BASEURL}complete.html` }
   );
 };
 
@@ -108,9 +130,12 @@ const createUser: Function = async (data: CreateUserInterface) => {
   return result;
 };
 
-const findUserFromNickname: Function = async (nickname: string) => {
+const createToken: Function = async (data: {
+  email: string;
+  nickname: string;
+}) => {
   mongoose
-    .connect(process.env.MONGO_URL ?? "", {
+    .connect(process.env.MongoDBUrl ?? "", {
       useFindAndModify: false,
       useNewUrlParser: true,
       useCreateIndex: true,
@@ -120,7 +145,6 @@ const findUserFromNickname: Function = async (nickname: string) => {
     .catch((err: Error): void =>
       console.log("Failed to connect MongoDB: ", err)
     );
-
-  const result = await new UserModel.findUserFromToken(nickname);
+  const result = await new CodeModel(data).save();
   return result;
 };

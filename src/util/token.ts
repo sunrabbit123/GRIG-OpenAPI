@@ -7,7 +7,7 @@ export const generateToken: Function = (
   expiresIn: string | number | undefined
 ): String => {
   return jwt.sign(payload, jwtSecret, {
-    expiresIn: expiresIn, // 만료일 5분
+    expiresIn: expiresIn,
   });
 };
 
