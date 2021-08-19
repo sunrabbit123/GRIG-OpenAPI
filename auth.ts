@@ -49,13 +49,10 @@ exports.authUserByOAuth = async (
     nickname: nickname,
   });
 
-  cb(
-    null,
-    createRes(
-      302,
-      {},
-      { Location: `${process.env.AUTH_BASEURL}email_auth.html?code=${code}` }
-    )
+  return createRes(
+    302,
+    {},
+    { Location: `${process.env.AUTH_BASEURL}email_auth.html?code=${code}` }
   );
 };
 
@@ -68,8 +65,8 @@ exports.authEmail = async (
   const code = searchPrams.get("code");
   const email = searchPrams.get("email");
 
-  if (email.slice(-10) !== "@gsm.hs.kr" || !email.startsWith("s")) {
-    return cb(null, createRes(400, { detail: "GSM 학생 계정이어야합니다." }));
+  if (email?.slice(-10) !== "@gsm.hs.kr" || !email?.startsWith("s")) {
+    return createRes(400, { detail: "GSM 학생 계정이어야합니다." });
   }
 
   const nickname = verifyToken(code).nickname;
@@ -79,7 +76,7 @@ exports.authEmail = async (
     nickname: nickname,
     token: token.id,
   });
-  cb(null, createRes(204));
+  return createRes(204);
 };
 
 exports.authUserByEmail = async (event: serverless_DTO.eventType, _: any) => {
@@ -98,7 +95,7 @@ exports.authUserByEmail = async (event: serverless_DTO.eventType, _: any) => {
   const data = await CodeModel.findById(dataId);
 
   const { email, nickname } = data;
-  const generation: number = email.slice(1, 3) * 1 - 16;
+  const generation: number = Number(email.slice(1, 3)) - 16;
 
   const user = await UserModel.findUserFromNickname(nickname);
 
