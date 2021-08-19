@@ -1,10 +1,10 @@
 import * as mongoose from "mongoose";
+import { DocumentType } from "@typegoose/typegoose";
 
 import { CodeModel } from "../src/model/code";
-import { UserModel } from "../src/model/users";
+import { UserModel, Users } from "../src/model/users";
 import { UserDTO } from "../src/DTO";
 import { GithubAPI } from "../src/util";
-import internal from "stream";
 
 export interface CreateUserInterface {
   access_token: string;
@@ -68,18 +68,8 @@ interface RepositoriesNode {
   forkCount: number;
   stargazers: { totalCount: number };
 }
+
 export const updateUserInformation: Function = async (nickname: string) => {
-  mongoose
-    .connect(process.env.MongoDBUrl ?? "", {
-      useFindAndModify: false,
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    })
-    .then((): void => console.log("MongoDB connected"))
-    .catch((err: Error): void =>
-      console.log("Failed to connect MongoDB: ", err)
-    );
   const user = await UserModel.findOne({ nickname: nickname });
 
   const userInform = await GithubAPI.getActivityByUser(nickname);
@@ -110,5 +100,31 @@ export const updateUserInformation: Function = async (nickname: string) => {
     following: userInform.following.totalCount,
   };
 
-  await user.updateActivity(userData);
+  await user?.updateActivity(userData);
+};
+
+export const updateAllUserInformation: Function = async (DBUrl: string) => {
+  mongoose
+    .connect(DBUrl ?? "", {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    })
+    .then((): void => console.log("MongoDB connected"))
+    .catch((err: Error): void =>
+      console.log("Failed to connect MongoDB: ", err)
+    );
+
+  const userList = await getAllUser();
+  userList.map(async (u: DocumentType<Users>) => {
+    const { nickname } = u;
+    console.info(`${nickname} 처리 중`);
+    await updateUserInformation(u.nickname);
+  });
+};
+
+const getAllUser: Function = async () => {
+  const userList = await UserModel.find({}).exec();
+  return userList;
 };

@@ -5,8 +5,10 @@ import {
   DocumentType,
 } from "@typegoose/typegoose";
 import { ModelType } from "@typegoose/typegoose/lib/types";
-import { INFORMATION_DTO, UserDTO } from "../DTO";
+
 import * as mongoose from "mongoose";
+
+import { INFORMATION_DTO, UserDTO } from "../DTO";
 
 @modelOptions({
   schemaOptions: {
@@ -95,8 +97,8 @@ export class Users {
   public static async findUserFromNickname(
     this: ModelType<Users> & typeof Users,
     nickname: string
-  ): Promise<DocumentType<Users>> {
-    const user = await this.findOne({ nickname: nickname });
+  ): Promise<DocumentType<Users> | null> {
+    const user = await this.findOne({ nickname: nickname }).exec();
     return user;
   }
 }
