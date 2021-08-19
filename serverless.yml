@@ -3,6 +3,7 @@ provider:
   name: aws
   runtime: nodejs12.x
   region: ap-northeast-2
+  stage: api
 
 resources:
   Resources:
@@ -28,8 +29,6 @@ resources:
 functions:
   graphql:
     handler: app.graphqlHandler
-    environment:
-      STAGE: ${sls:stage}
     events:
       - http:
           path: graphql
@@ -48,8 +47,6 @@ functions:
           cors: false
   email_auth:
     handler: auth.authUserByEmail
-    environment:
-      STAGE: ${sls:stage}
     events:
       - http:
           path: email/{token}
@@ -57,8 +54,6 @@ functions:
           cors: false
   send_email:
     handler: auth.authEmail
-    environment:
-      STAGE: ${sls:stage}
     events:
       - http:
           path: send-email
