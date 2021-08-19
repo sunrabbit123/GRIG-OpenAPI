@@ -104,17 +104,12 @@ export const updateUserInformation: Function = async (nickname: string) => {
 };
 
 export const updateAllUserInformation: Function = async (DBUrl: string) => {
-  mongoose
-    .connect(DBUrl ?? "", {
-      useFindAndModify: false,
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    })
-    .then((): void => console.log("MongoDB connected"))
-    .catch((err: Error): void =>
-      console.log("Failed to connect MongoDB: ", err)
-    );
+  const db = await mongoose.connect(DBUrl ?? "", {
+    useFindAndModify: false,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  });
 
   const userList = await getAllUser();
   userList.map(async (u: DocumentType<Users>) => {
@@ -122,6 +117,7 @@ export const updateAllUserInformation: Function = async (DBUrl: string) => {
     console.info(`${nickname} 처리 중`);
     await updateUserInformation(u.nickname);
   });
+  await db.disconnect();
 };
 
 const getAllUser: Function = async () => {
