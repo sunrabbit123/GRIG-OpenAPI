@@ -1,0 +1,20 @@
+name: Update
+on:
+  schedule:
+    - cron: "0 18 * * *"
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install
+        run: yarn install
+
+      - name: Delete dist
+        run: rm -rm dist
+
+      - name: Typescript compile
+        run: yarn tsc
+
+      - name: User information update
+        run: yarn update
