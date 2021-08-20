@@ -105,24 +105,21 @@ export const updateUserInformation: Function = async (nickname: string) => {
   await user?.updateActivity(userData);
 };
 
-export const updateAllUserInformation: Function = async (DBUrl: string) => {
-  const db = await mongoose.connect(DBUrl ?? "", {
-    useFindAndModify: false,
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  });
-
+export const updateAllUserInformation: Function = async () => {
   const userList = await getAllUser();
   userList.map(async (u: DocumentType<Users>) => {
     const { nickname } = u;
     console.info(`${nickname} 처리 중`);
     await updateUserInformation(u.nickname);
   });
-  await db.disconnect();
 };
 
 const getAllUser: Function = async () => {
   const userList = await UserModel.find({}).exec();
   return userList;
 };
+
+export const deleteRemainNotCertifiedUser: Function =
+  async (): Promise<void> => {
+    await UserModel.deleteMany({ certified: false });
+  };
