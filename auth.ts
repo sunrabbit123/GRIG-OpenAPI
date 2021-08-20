@@ -12,10 +12,10 @@ import { generateToken, verifyToken } from "./src/util/token";
 import { sendAuthMessage } from "./src/util/email";
 
 import {
-  deleteUserByNickname,
   createUser,
   createToken,
   updateUserInformation,
+  findUserByNickname,
 } from "./util/user";
 
 const createRes: Function = (
@@ -41,18 +41,24 @@ exports.authUserByOAuth = async (
 
   const code = generateToken({ nickname: nickname }, "180m");
 
-  await deleteUserByNickname(nickname);
+  let page = "complete.html";
+  const user = await findUserByNickname(nickname);
+  if (!(user?.certified == true)) {
+    if (!user) {
+      await createUser({
+        accessToken: access_token,
+        name: name,
+        nickname: nickname,
+      });
+    }
 
-  await createUser({
-    accessToken: access_token,
-    name: name,
-    nickname: nickname,
-  });
+    page = "email_auth.html";
+  }
 
   return createRes(
     302,
     {},
-    { Location: `${process.env.AUTH_BASEURL}email_auth.html?code=${code}` }
+    { Location: `${process.env.AUTH_BASEURL}${page}?code=${code}` }
   );
 };
 

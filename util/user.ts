@@ -29,7 +29,9 @@ export const createUser: Function = async (data: CreateUserInterface) => {
   return result;
 };
 
-export const deleteUserByNickname: Function = async (nickname: string) => {
+export const findUserByNickname: Function = async (
+  nickname: string
+): Promise<DocumentType<Users> | null> => {
   mongoose
     .connect(process.env.MongoDBUrl ?? "", {
       useFindAndModify: false,
@@ -41,10 +43,7 @@ export const deleteUserByNickname: Function = async (nickname: string) => {
     .catch((err: Error): void =>
       console.log("Failed to connect MongoDB: ", err)
     );
-  const result = await UserModel.findOneAndDelete({
-    nickname: nickname,
-    certified: false,
-  });
+  const result = await UserModel.findOne({ nickname: nickname });
   return result;
 };
 
