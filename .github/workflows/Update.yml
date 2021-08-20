@@ -10,9 +10,6 @@ jobs:
       - name: Install
         run: yarn install
 
-      - name: Delete dist
-        run: rm -rm dist
-
       - name: Typescript compile
         run: yarn tsc
 
