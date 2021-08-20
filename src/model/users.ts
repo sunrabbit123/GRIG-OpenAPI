@@ -24,6 +24,9 @@ export class Users {
   @prop({ required: true })
   public accessToken!: string;
 
+  @prop({ required: true, default: false })
+  public certified!: boolean;
+
   @prop({ required: true })
   public name!: string;
 
@@ -79,6 +82,10 @@ export class Users {
     generation: number
   ): Promise<void> {
     this.generation = generation;
+    await this.save();
+  }
+  public async setCertifiedTrue(this: DocumentType<Users>): Promise<void> {
+    this.certified = true;
     await this.save();
   }
 

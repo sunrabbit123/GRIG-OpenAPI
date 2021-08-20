@@ -41,7 +41,10 @@ export const deleteUserByNickname: Function = async (nickname: string) => {
     .catch((err: Error): void =>
       console.log("Failed to connect MongoDB: ", err)
     );
-  const result = await UserModel.findOneAndDelete({ nickname: nickname });
+  const result = await UserModel.findOneAndDelete({
+    nickname: nickname,
+    certified: false,
+  });
   return result;
 };
 
@@ -70,7 +73,7 @@ interface RepositoriesNode {
 }
 
 export const updateUserInformation: Function = async (nickname: string) => {
-  const user = await UserModel.findOne({ nickname: nickname });
+  const user = await UserModel.findOne({ nickname: nickname, certified: true });
 
   const userInform = await GithubAPI.getActivityByUser(nickname);
   const repositories = userInform.repositories.nodes;
