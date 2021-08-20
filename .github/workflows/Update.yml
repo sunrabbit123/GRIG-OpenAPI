@@ -9,6 +9,8 @@ jobs:
     steps:
       - name: Install
         run: yarn install
+      - name: Delete dist
+        run: rm -rf dist
 
       - name: Typescript compile
         run: yarn tsc
