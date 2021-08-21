@@ -16,7 +16,7 @@ jobs:
         run: yarn graphdoc -e https://d6ui2fy5uj.execute-api.ap-northeast-2.amazonaws.com/api/graphql -o ./docs
 
       - name: merge page and docs
-        run: cp page/* docs/
+        run: cp -r page/* docs/
 
       - name: deploy gh-pages
         uses: peaceiris/actions-gh-pages@v2.5.0
