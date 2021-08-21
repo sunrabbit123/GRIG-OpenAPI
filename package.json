@@ -20,6 +20,7 @@
     "nodemailer": "^6.6.3"
   },
   "devDependencies": {
+    "@2fd/graphdoc": "^2.4.0",
     "@types/jsonwebtoken": "^8.5.4",
     "@types/mongoose": "^5.11.97",
     "@types/node": "^16.3.2",
