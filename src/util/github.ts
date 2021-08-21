@@ -85,6 +85,7 @@ export const getUserByNickName: Function = async (
     data: {},
     header: header,
   };
+  console.log(body);
   const userData: AxiosResponse = await sendRequest(body);
   return userData.data;
 };
@@ -93,6 +94,7 @@ export const getActivityByUser: Function = async (
   nickname: string
 ): Promise<Object> => {
   const [url, query] = getGraphQLApi({ login: nickname });
+  console.log(query);
   const header = {
     "Content-Type": "application/json",
     Authorization: `bearer ${process.env.githubToken}`,

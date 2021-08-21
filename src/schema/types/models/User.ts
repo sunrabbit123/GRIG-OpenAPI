@@ -1,5 +1,4 @@
 import { objectType } from "nexus";
-import { ActivityService } from "../../../service";
 
 export const User = objectType({
   name: "User",
@@ -17,11 +16,11 @@ export const User = objectType({
     t.string("email");
     t.string("bio");
     t.string("twitter_username");
-    t.field("activities", {
-      type: "Activity",
-      resolve: async (root: any, _, __) => {
-        return await ActivityService.getActivityByUser(root.nickname);
-      },
-    });
+    t.int("contributions");
+    t.int("pullRequests");
+    t.int("issues");
+    t.int("publicRepositories");
+    t.int("stared");
+    t.int("forked");
   },
 });

@@ -72,12 +72,15 @@ interface RepositoriesNode {
 }
 
 export const updateUserInformation: Function = async (nickname: string) => {
+  console.log(nickname);
   const user = await UserModel.findOne({ nickname: nickname, certified: true });
-
+  if (!user) return;
+  console.log("Success get user");
   const userInform = await GithubAPI.getActivityByUser(nickname);
+  console.log("Success get user Inform");
   const repositories = userInform.repositories.nodes;
 
-  const userData: UserDTO.UserUpdateInput = {
+  const userActivityData: UserDTO.UserUpdateActivityInput = {
     contributions:
       userInform.contributionsCollection.contributionCalendar
         .totalContributions +
@@ -101,8 +104,11 @@ export const updateUserInformation: Function = async (nickname: string) => {
     followers: userInform.followers.totalCount,
     following: userInform.following.totalCount,
   };
+  const userInformData = await GithubAPI.getUserByNickName(nickname);
 
+  const userData = Object.assign({}, userActivityData, userInformData);
   await user?.updateActivity(userData);
+  console.log(user);
 };
 
 export const updateAllUserInformation: Function = async () => {
