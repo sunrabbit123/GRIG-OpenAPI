@@ -18,10 +18,10 @@ jobs:
       - name: merge page and docs
         run: cp -r page/* docs/
 
-      - name: deploy gh-pages
-        uses: peaceiris/actions-gh-pages@v2.5.0
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.ACCESS_TOKEN }}
           publish_dir: ./docs
+
         
         
