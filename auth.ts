@@ -106,11 +106,13 @@ exports.authUserByEmail = async (event: serverless_DTO.eventType, _: any) => {
   const user = await UserModel.findUserFromNickname(nickname);
 
   await user.updateGeneration(generation);
+  console.log("Success update Generation");
   await user.setCertifiedTrue();
-
+  console.log("Success Set Certified True");
   await updateUserInformation(nickname);
-
+  console.log("Update User Information");
   await CodeModel.findByIdAndDelete(dataId);
+  console.log("Success find By Id and delete data Id");
 
   return createRes(
     302,

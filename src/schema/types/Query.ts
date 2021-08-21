@@ -3,7 +3,6 @@ import * as q from "./queries";
 
 export const Query = queryType({
   definition(t) {
-    t.field("user", q.user);
-    t.field("activity", q.activity);
+    t.list.field("ranking", q.ranking);
   },
 });

@@ -19,6 +19,7 @@ import { INFORMATION_DTO, UserDTO } from "../DTO";
   },
 })
 export class Users {
+  // section 1
   public _id!: mongoose.Types.ObjectId;
 
   @prop({ required: true })
@@ -27,6 +28,7 @@ export class Users {
   @prop({ required: true, default: false })
   public certified!: boolean;
 
+  // section 2
   @prop({ required: true })
   public name!: string;
 
@@ -34,7 +36,48 @@ export class Users {
   public nickname!: string;
 
   @prop({})
+  public avatar_url?: string;
+
+  @prop({})
   public generation?: number;
+
+  // section 3
+  @prop({ default: 0 })
+  public followers?: number;
+
+  @prop({ default: 0 })
+  public following?: number;
+
+  //section 4
+  @prop({ default: 0 })
+  public public_repos?: number;
+
+  @prop({ required: false })
+  public repos_url?: string;
+
+  @prop({ default: 0 })
+  public public_gists?: number;
+
+  //section 5
+  @prop({ required: false })
+  public company?: string | null;
+
+  @prop({ required: false })
+  public blog?: string | null;
+
+  @prop({ required: false })
+  public location?: string | null;
+
+  @prop({ required: false })
+  public email?: string | null;
+
+  @prop({ required: false })
+  public bio?: string | null;
+
+  @prop({ required: false })
+  public twitter_username?: string | null;
+
+  // sectino
 
   @prop({ default: 0 })
   public contributions?: number;
@@ -54,12 +97,6 @@ export class Users {
   @prop({ default: 0 })
   public forked?: number;
 
-  @prop({ default: 0 })
-  public followers?: number;
-
-  @prop({ default: 0 })
-  public following?: number;
-
   public get id(): mongoose.Types.ObjectId {
     return this._id;
   }
@@ -67,14 +104,51 @@ export class Users {
     this: DocumentType<Users>,
     arg: UserDTO.UserUpdateInput
   ): Promise<void> {
-    this.contributions = arg.contributions;
-    this.pullRequests = arg.pullRequests;
-    this.issues = arg.issues;
-    this.repositoriesContributedTo = arg.repositoriesContributedTo;
-    this.stared = arg.stared;
-    this.forked = arg.forked;
-    this.followers = arg.followers;
-    this.following = arg.following;
+    const {
+      contributions,
+      pullRequests,
+      issues,
+      repositoriesContributedTo,
+      stared,
+      forked,
+      name,
+      avatar_url,
+      followers,
+      following,
+      repos_url,
+      public_repos,
+      public_gists,
+      company,
+      blog,
+      location,
+      email,
+      bio,
+      twitter_username,
+    } = arg;
+
+    this.contributions = contributions;
+    this.pullRequests = pullRequests;
+    this.issues = issues;
+    this.repositoriesContributedTo = repositoriesContributedTo;
+    this.stared = stared;
+    this.forked = forked;
+
+    this.name = name;
+    this.avatar_url = avatar_url;
+
+    this.following = following;
+    this.followers = followers;
+
+    this.repos_url = repos_url;
+    this.public_repos = public_repos;
+    this.public_gists = public_gists;
+
+    this.company = company;
+    this.blog = blog;
+    this.location = location;
+    this.email = email;
+    this.bio = bio;
+    this.twitter_username = twitter_username;
     await this.save();
   }
   public async updateGeneration(
