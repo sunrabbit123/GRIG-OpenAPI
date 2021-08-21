@@ -1,0 +1,25 @@
+name: Push gh-pages
+on:
+  push:
+    branches: [main]
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install
+        run: yarn install
+        
+      - name: compile graphdoc
+        run: yarn graphdoc -e https://d6ui2fy5uj.execute-api.ap-northeast-2.amazonaws.com/api/graphql -o ./docs
+
+      - name: merge page and docs
+        run: cp page/* docs/
+
+      - name: deploy gh-pages
+        uses: peaceiris/actions-gh-pages@v2.5.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+        
+        
