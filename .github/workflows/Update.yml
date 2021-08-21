@@ -13,7 +13,7 @@ jobs:
         run: rm -rf dist
 
       - name: Typescript compile
-        run: yarn tsc
+        run: ./node_modules/.bin/tsc
 
       - name: User information update
         run: yarn update
