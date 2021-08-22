@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "repository": "https://github.com/sunrabbit123/Github-Rangkin-for-GSM.git",
   "author": "sunrabbit123 <qudwls185@naver.com>",
-  "license": "apache2.0",
+  "license": "SPDX",
   "scripts": {
     "start": "sls offline start",
     "deploy": "sls deploy",
     "update": "node ./dist/util/update.js"
   },
   "dependencies": {
-    "@typegoose/typegoose": "^7.6.3",
+    "@typegoose/typegoose": "^8.1.1",
     "apollo-server-lambda": "^3.0.0",
     "axios": "^0.21.1",
     "graphql": "^15.5.1",
