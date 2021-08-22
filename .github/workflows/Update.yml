@@ -8,12 +8,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Install
-        run: yarn install
+        run: yarn
+        
       - name: Delete dist
         run: rm -rf dist
 
       - name: Typescript compile
-        run: ./node_modules/.bin/tsc
+        run: yarn tsc
 
       - name: User information update
         run: yarn update
