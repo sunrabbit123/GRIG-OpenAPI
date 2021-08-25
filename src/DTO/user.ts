@@ -38,12 +38,12 @@ export interface UserUpdateInput {
   public_repos: number;
   public_gists: number;
 
-  company: string | null;
-  blog: string | null;
-  location: string | null;
-  email: string | null;
-  bio: string | null;
-  twitter_username: string | null;
+  company: string;
+  blog: string;
+  location: string;
+  email: string;
+  bio: string;
+  twitter_username: string;
 }
 
 export interface UserUpdateActivityInput {
