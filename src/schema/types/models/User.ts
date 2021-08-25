@@ -3,6 +3,7 @@ import { objectType } from "nexus";
 export const User = objectType({
   name: "User",
   definition(t) {
+    t.boolean("certified");
     t.string("name");
     t.int("generation");
     t.string("nickname");
