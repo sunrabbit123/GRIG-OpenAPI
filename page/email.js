@@ -1,7 +1,9 @@
 const validTime = document.querySelector(".valid-time");
 const validBtn = document.querySelector(".valid-btn");
 const sendMessage = document.querySelector(".send");
+const faildSendMessage = document.querySelector(".faild-send");
 const codeInput = document.querySelector(".code");
+const emailInput = document.querySelector(".form-input");
 
 let disabled = true;
 let timer;
@@ -17,7 +19,21 @@ function Timer() {
   }
 }
 
+function isGSMEmail() {
+  return !(
+    emailInput.value.slice(-10) !== "@gsm.hs.kr" ||
+    !emailInput.value.startsWith("s")
+  );
+}
 function submitAndStartTimer() {
+  faildSendMessage.style.display = "none";
+  sendMessage.style.display = "none";
+  faildSendMessage.style.display = "none";
+
+  if (!isGSMEmail()) {
+    faildSendMessage.style.display = "block";
+    return false;
+  }
   validTime.style.display = "block";
   sendMessage.style.display = "block";
 
