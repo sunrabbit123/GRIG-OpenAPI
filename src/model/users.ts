@@ -59,23 +59,23 @@ export class Users {
   public public_gists?: number;
 
   //section 5
-  @prop({ required: false })
-  public company?: string | null;
+  @prop({ default: "" })
+  public company?: string;
 
-  @prop({ required: false })
-  public blog?: string | null;
+  @prop({ default: "" })
+  public blog?: string;
 
-  @prop({ required: false })
-  public location?: string | null;
+  @prop({ default: "" })
+  public location?: string;
 
-  @prop({ required: false })
-  public email?: string | null;
+  @prop({ default: "" })
+  public email?: string;
 
-  @prop({ required: false })
-  public bio?: string | null;
+  @prop({ default: "" })
+  public bio?: string;
 
-  @prop({ required: false })
-  public twitter_username?: string | null;
+  @prop({ default: "" })
+  public twitter_username?: string;
 
   // section 6
 
@@ -143,7 +143,7 @@ export class Users {
     this.public_repos = public_repos;
     this.public_gists = public_gists;
 
-    this.company = company;
+    this.company = company ?? this.company;
     this.blog = blog;
     this.location = location;
     this.email = email;
