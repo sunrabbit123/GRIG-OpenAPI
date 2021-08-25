@@ -77,7 +77,7 @@ export class Users {
   @prop({ required: false })
   public twitter_username?: string | null;
 
-  // sectino
+  // section 6
 
   @prop({ default: 0 })
   public contributions?: number;
