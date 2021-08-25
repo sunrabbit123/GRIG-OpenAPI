@@ -167,7 +167,7 @@ export class Users {
     this: ModelType<Users> & typeof Users,
     options: INFORMATION_DTO.GetRankingInput
   ): Promise<Array<DocumentType<Users>>> {
-    const userList = await this.find()
+    const userList = await this.find({ certified: true })
       .sort(INFORMATION_DTO.RankingSortCriteria[options.criteria])
       .skip((options.page - 1) * options.count)
       .limit(options.count)
