@@ -6,12 +6,12 @@ on:
 jobs:
   update:
     runs-on: ubuntu-latest
-    steps: 
+    steps:
       - uses: actions/checkout@v2
-      
+
       - name: Install
         run: yarn
-        
+
       - name: Delete dist
         run: rm -rf dist
 
@@ -20,3 +20,5 @@ jobs:
 
       - name: User information update
         run: yarn update
+        env:
+          MongoDBUrl: ${{ secrets.MONGODBURL }}

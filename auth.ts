@@ -100,17 +100,22 @@ exports.authUserByEmail = async (event: serverless_DTO.eventType, _: any) => {
   const dataId = event.pathParameters["token"];
   const data = await CodeModel.findById(dataId);
 
-  const { email, nickname } = data;
+  const email: string = data.email;
+  const nickname: string = data.nickname;
   const generation: number = Number(email.slice(1, 3)) - 16;
 
   const user = await UserModel.findUserFromNickname(nickname);
+  try {
+    await user.updateGeneration(generation);
+    console.log("Success update Generation");
+    await user.setCertifiedTrue();
+    console.log("Success Set Certified True");
+    await updateUserInformation(nickname);
+    console.log("Update User Information");
+  } catch (e: any) {
+    console.error(e);
+  }
 
-  await user.updateGeneration(generation);
-  console.log("Success update Generation");
-  await user.setCertifiedTrue();
-  console.log("Success Set Certified True");
-  await updateUserInformation(nickname);
-  console.log("Update User Information");
   await CodeModel.findByIdAndDelete(dataId);
   console.log("Success find By Id and delete data Id");
 
