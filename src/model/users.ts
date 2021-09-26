@@ -60,22 +60,22 @@ export class Users {
 
   //section 5
   @prop({ required: false })
-  public company?: string | null;
+  public company?: string;
 
   @prop({ required: false })
-  public blog?: string | null;
+  public blog?: string;
 
   @prop({ required: false })
-  public location?: string | null;
+  public location?: string;
 
   @prop({ required: false })
-  public email?: string | null;
+  public email?: string;
 
   @prop({ required: false })
-  public bio?: string | null;
+  public bio?: string;
 
   @prop({ required: false })
-  public twitter_username?: string | null;
+  public twitter_username?: string;
 
   // sectino
 
@@ -143,12 +143,12 @@ export class Users {
     this.public_repos = public_repos;
     this.public_gists = public_gists;
 
-    this.company = company;
-    this.blog = blog;
-    this.location = location;
-    this.email = email;
-    this.bio = bio;
-    this.twitter_username = twitter_username;
+    this.company = company ?? undefined;
+    this.blog = blog ?? undefined;
+    this.location = location ?? undefined;
+    this.email = email ?? undefined;
+    this.bio = bio ?? undefined;
+    this.twitter_username = twitter_username ?? undefined;
     await this.save();
   }
   public async updateGeneration(
@@ -167,7 +167,7 @@ export class Users {
     this: ModelType<Users> & typeof Users,
     options: INFORMATION_DTO.GetRankingInput
   ): Promise<Array<DocumentType<Users>>> {
-    const userList = await this.find({ certified : true })
+    const userList = await this.find({ certified: true })
       .sort(INFORMATION_DTO.RankingSortCriteria[options.criteria])
       .skip((options.page - 1) * options.count)
       .limit(options.count)
