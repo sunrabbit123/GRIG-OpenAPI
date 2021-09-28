@@ -110,7 +110,7 @@ exports.authUserByEmail = async (event: serverless_DTO.eventType, _: any) => {
     console.log("Success update Generation");
     await user.setCertifiedTrue();
     console.log("Success Set Certified True");
-    await updateUserInformation(nickname);
+    await updateUserInformation(user);
     console.log("Update User Information");
   } catch (e: any) {
     console.error(e);

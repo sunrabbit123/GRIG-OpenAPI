@@ -2,7 +2,7 @@ import { updateAllUserInformation, deleteRemainNotCertifiedUser } from "./user";
 import { deleteRemainCode } from "./code";
 async function main(): Promise<void> {
   await updateAllUserInformation();
-  // await deleteRemainDocument();
+  await deleteRemainDocument();
   return;
 }
 
