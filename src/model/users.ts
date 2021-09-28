@@ -4,7 +4,7 @@ import {
   prop,
   DocumentType,
 } from "@typegoose/typegoose";
-import { ModelType } from "@typegoose/typegoose/lib/types";
+import { BeAnObject, ModelType } from "@typegoose/typegoose/lib/types";
 
 import * as mongoose from "mongoose";
 
@@ -103,7 +103,7 @@ export class Users {
   public async updateActivity(
     this: DocumentType<Users>,
     arg: UserDTO.UserUpdateInput
-  ): Promise<void> {
+  ): Promise<DocumentType<Users, BeAnObject> | undefined> {
     const {
       contributions,
       pullRequests,
@@ -150,11 +150,10 @@ export class Users {
     this.bio = bio ?? undefined;
     this.twitter_username = twitter_username ?? undefined;
     try {
-      await this.save();
+      return this.save();
     } catch (e) {
       console.error(e);
     }
-    return;
   }
   public async updateGeneration(
     this: DocumentType<Users>,

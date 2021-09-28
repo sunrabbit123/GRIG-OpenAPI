@@ -105,14 +105,22 @@ export const updateUserInformation: Function = async (
   const userInformData = await GithubAPI.getUserByNickName(nickname);
 
   const userData = Object.assign({}, userActivityData, userInformData);
-  await user.updateActivity(userData);
-  console.log(nickname, "처리 완료");
-  return;
+  return user.updateActivity(userData);
 };
 
-export const getUserList: Function = async (): Promise<
-  DocumentType<Users, BeAnObject>[]
-> => {
+export const updateUserListInformation: Function = async (
+  userList: DocumentType<Users, BeAnObject>[]
+) => {
+  return Promise.all(
+    userList.map((u: DocumentType<Users>) => {
+      const { nickname } = u;
+      console.info(`${nickname} 처리 중`);
+      return updateUserInformation(u);
+    })
+  );
+};
+
+export const updateAllUserInformation: Function = async () => {
   const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
     useFindAndModify: true,
     useNewUrlParser: true,
@@ -121,45 +129,16 @@ export const getUserList: Function = async (): Promise<
   });
 
   const userList = await UserModel.find({ certified: true }).exec();
-  db.disconnect();
-  return userList;
-};
-export const updateUserListInformation: Function = async (
-  userList: DocumentType<Users, BeAnObject>[]
-) => {
-  const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
-    useFindAndModify: true,
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  });
-  await Promise.all(
-    userList.map((u: DocumentType<Users>) => {
-      const { nickname } = u;
-      console.info(`${nickname} 처리 중`);
-      updateUserInformation(u);
-    })
-  );
-  db.disconnect();
-};
-
-export const updateAllUserInformation: Function = async () => {
-  const userList = await getUserList();
-  await updateUserListInformation(userList);
+  const data = await updateUserListInformation(userList);
+  if (data) {
+    db.disconnect();
+  }
   return;
 };
 
 export const deleteRemainNotCertifiedUser: Function =
   async (): Promise<void> => {
-    const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
-      useFindAndModify: true,
-      useNewUrlParser: true,
-      useCreateIndex: true,
-      useUnifiedTopology: true,
-    });
-
     await UserModel.deleteMany({ certified: false });
     console.log("인증처리가 되지않은 유저들 삭제 완료");
-    db.disconnect();
     return;
   };
