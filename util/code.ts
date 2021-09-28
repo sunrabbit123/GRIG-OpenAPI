@@ -13,5 +13,6 @@ export const deleteRemainCode: Function = async (): Promise<void> => {
   dateTime.setMinutes(dateTime.getMinutes() - 5);
   await CodeModel.deleteMany({ createdAt: { $lte: dateTime } });
   console.log("사용되지않는 코드들 제거 완료");
+  db.disconnect();
   return;
 };

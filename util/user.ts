@@ -5,6 +5,7 @@ import { CodeModel } from "../src/model/code";
 import { UserModel, Users } from "../src/model/users";
 import { UserDTO } from "../src/DTO";
 import { GithubAPI } from "../src/util";
+import { BeAnObject } from "@typegoose/typegoose/lib/types";
 
 export interface CreateUserInterface {
   access_token: string;
@@ -71,17 +72,11 @@ interface RepositoriesNode {
   stargazers: { totalCount: number };
 }
 
-export const updateUserInformation: Function = async (nickname: string) => {
-  const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
-    useFindAndModify: true,
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useUnifiedTopology: true,
-  });
-
-  const user = await UserModel.findOne({ nickname: nickname, certified: true });
-  if (!user) return;
-  const userInform = await GithubAPI.getActivityByUser(nickname);
+export const updateUserInformation: Function = async (
+  user: DocumentType<Users, BeAnObject>
+) => {
+  const { nickname } = user;
+  const userInform = await GithubAPI.getActivityByUser(user.nickname);
   const repositories = userInform.repositories.nodes;
   const userActivityData: UserDTO.UserUpdateActivityInput = {
     contributions:
@@ -115,7 +110,9 @@ export const updateUserInformation: Function = async (nickname: string) => {
   return;
 };
 
-export const updateAllUserInformation: Function = async () => {
+export const getUserList: Function = async (): Promise<
+  DocumentType<Users, BeAnObject>[]
+> => {
   const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
     useFindAndModify: true,
     useNewUrlParser: true,
@@ -123,15 +120,32 @@ export const updateAllUserInformation: Function = async () => {
     useUnifiedTopology: true,
   });
 
-  const userList = await UserModel.find({}).exec();
-  const data = await Promise.all(
+  const userList = await UserModel.find({ certified: true }).exec();
+  db.disconnect();
+  return userList;
+};
+export const updateUserListInformation: Function = async (
+  userList: DocumentType<Users, BeAnObject>[]
+) => {
+  const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
+    useFindAndModify: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+  });
+  await Promise.all(
     userList.map((u: DocumentType<Users>) => {
       const { nickname } = u;
       console.info(`${nickname} 처리 중`);
-      updateUserInformation(u.nickname);
-      return 1;
+      updateUserInformation(u);
     })
   );
+  db.disconnect();
+};
+
+export const updateAllUserInformation: Function = async () => {
+  const userList = await getUserList();
+  await updateUserListInformation(userList);
   return;
 };
 
@@ -146,5 +160,6 @@ export const deleteRemainNotCertifiedUser: Function =
 
     await UserModel.deleteMany({ certified: false });
     console.log("인증처리가 되지않은 유저들 삭제 완료");
+    db.disconnect();
     return;
   };
