@@ -149,7 +149,12 @@ export class Users {
     this.email = email ?? undefined;
     this.bio = bio ?? undefined;
     this.twitter_username = twitter_username ?? undefined;
-    await this.save();
+    try {
+      await this.save();
+    } catch (e) {
+      console.error(e);
+    }
+    return;
   }
   public async updateGeneration(
     this: DocumentType<Users>,

@@ -7,7 +7,7 @@
   "scripts": {
     "start": "sls offline start",
     "deploy": "sls deploy",
-    "update": "node ./dist/util/update.js"
+    "update": "ts-node ./util/update.ts"
   },
   "dependencies": {
     "@typegoose/typegoose": "^8.1.1",

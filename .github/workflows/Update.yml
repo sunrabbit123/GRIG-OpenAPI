@@ -15,9 +15,6 @@ jobs:
       - name: Delete dist
         run: rm -rf dist
 
-      - name: Typescript compile
-        run: yarn tsc
-
       - name: User information update
         run: yarn update
         env:
