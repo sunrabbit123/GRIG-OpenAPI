@@ -38,7 +38,6 @@ exports.authUserByOAuth = async (
   const data = event.queryStringParameters;
   const access_token = (await getAccessTokenByCode(data.code)).access_token;
   const { name, nickname } = await getUserByToken(access_token);
-
   const code = generateToken({ nickname: nickname }, "180m");
 
   let page = "complete.html";
@@ -47,7 +46,7 @@ exports.authUserByOAuth = async (
     if (!user) {
       await createUser({
         accessToken: access_token,
-        name: name,
+        name: name ?? " ",
         nickname: nickname,
       });
     }

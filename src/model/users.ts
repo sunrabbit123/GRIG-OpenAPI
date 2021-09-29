@@ -133,7 +133,7 @@ export class Users {
     this.stared = stared;
     this.forked = forked;
 
-    this.name = name;
+    this.name = name ?? " ";
     this.avatar_url = avatar_url;
 
     this.following = following;
