@@ -12,9 +12,6 @@ jobs:
       - name: Install
         run: yarn
 
-      - name: Delete dist
-        run: rm -rf dist
-
       - name: User information update
         run: yarn update
         env:
