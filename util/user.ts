@@ -129,6 +129,7 @@ export const updateAllUserInformation: Function = async () => {
   });
 
   const userList = await UserModel.find({ certified: true }).exec();
+  console.log(userList.length, "명이 등록되어 있음");
   const data = await updateUserListInformation(userList);
   if (data) {
     db.disconnect();
