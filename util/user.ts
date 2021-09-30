@@ -115,7 +115,12 @@ export const updateUserListInformation: Function = async (
     userList.map((u: DocumentType<Users>) => {
       const { nickname } = u;
       console.info(`${nickname} 처리 중`);
-      return updateUserInformation(u);
+      try {
+        return updateUserInformation(u);
+      } catch (e) {
+        console.log(e);
+        return nickname;
+      }
     })
   );
 };
