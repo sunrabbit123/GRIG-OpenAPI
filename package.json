@@ -8,7 +8,7 @@
     "start": "sls offline start",
     "deploy": "sls deploy",
     "update": "ts-node ./util/update.ts",
-    "delete": "ts-node ./until/delete.ts"
+    "delete": "ts-node ./util/delete.ts"
   },
   "dependencies": {
     "@typegoose/typegoose": "^8.1.1",
