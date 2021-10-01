@@ -105,7 +105,8 @@ export const updateUserInformation: Function = async (
   const userInformData = await GithubAPI.getUserByNickName(nickname);
 
   const userData = Object.assign({}, userActivityData, userInformData);
-  return user.updateActivity(userData);
+  const dataSet = await user.updateActivity(userData);
+  return dataSet
 };
 
 export const updateUserListInformation: Function = async (
