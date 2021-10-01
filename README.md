@@ -13,3 +13,5 @@ GSM의 깃헙 랭킹을 구현하는 OpenAPI 서버입니다.
 GRIG API Docs : [https://sunrabbit123.github.io/GRIG-OpenAPI/](https://sunrabbit123.github.io/GRIG-OpenAPI/)  
 GraphQL 테스트 사이트 : [https://studio.apollographql.com/sandbox/explorer?endpoint=https%3A%2F%2Fd6ui2fy5uj.execute-api.ap-northeast-2.amazonaws.com%2Fapi%2Fgraphql](https://studio.apollographql.com/sandbox/explorer?endpoint=https%3A%2F%2Fd6ui2fy5uj.execute-api.ap-northeast-2.amazonaws.com%2Fapi%2Fgraphql)  
 GraphQL 엔드포인트 : [https://d6ui2fy5uj.execute-api.ap-northeast-2.amazonaws.com/api/graphql](https://d6ui2fy5uj.execute-api.ap-northeast-2.amazonaws.com/api/graphql) 
+
+그렇습니다
