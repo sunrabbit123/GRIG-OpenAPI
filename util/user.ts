@@ -137,6 +137,7 @@ export const updateAllUserInformation: Function = async () => {
   console.log(userList.length, "명이 등록되어 있음");
   const data = await updateUserListInformation(userList);
   if (data) {
+    console.log(data);
     db.disconnect();
   }
   return;
