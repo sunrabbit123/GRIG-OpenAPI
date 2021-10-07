@@ -17,6 +17,7 @@ export const User = objectType({
     t.int("following");
     t.string("repos_url");
     t.int("public_repos");
+    t.string("avatar_url");
     t.string("company");
     t.string("blog");
     t.string("location");

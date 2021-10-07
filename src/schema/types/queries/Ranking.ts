@@ -19,7 +19,7 @@ export const ranking = {
       .catch((err: Error): void =>
         console.log("Failed to connect MongoDB: ", err)
       );
-    return await UserModel.getRanking(args);
+    return UserModel.getRanking(args);
   },
 };
 
