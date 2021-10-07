@@ -1,9 +1,16 @@
 import { objectType } from "nexus";
+import { getKindOfGenaration } from "../../../service/user";
 
 export const User = objectType({
   name: "User",
   definition(t) {
     t.string("name");
+    t.field("generation", {
+      type: "Generation",
+      resolve: (_, __, ___) => {
+        return getKindOfGenaration();
+      },
+    });
     t.int("generation");
     t.string("nickname");
     t.int("followers");
@@ -22,5 +29,13 @@ export const User = objectType({
     t.int("publicRepositories");
     t.int("stared");
     t.int("forked");
+  },
+});
+
+export const generations = objectType({
+  name: "Generation",
+  definition(t) {
+    t.int("_id");
+    t.int("count");
   },
 });
