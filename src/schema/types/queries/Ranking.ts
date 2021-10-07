@@ -22,3 +22,7 @@ export const ranking = {
     return await UserModel.getRanking(args);
   },
 };
+
+export const hasGeneration = {
+  type: "",
+};
