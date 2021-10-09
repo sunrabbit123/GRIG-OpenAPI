@@ -106,7 +106,7 @@ export const updateUserInformation: Function = async (
 
   const userData = Object.assign({}, userActivityData, userInformData);
   const dataSet = await user.updateActivity(userData);
-  return dataSet
+  return dataSet;
 };
 
 export const updateUserListInformation: Function = async (
@@ -138,7 +138,6 @@ export const updateAllUserInformation: Function = async () => {
   console.log(userList.length, "명이 등록되어 있음");
   const data = await updateUserListInformation(userList);
   if (data) {
-    console.log(data);
     db.disconnect();
   }
   return;
