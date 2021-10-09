@@ -3,8 +3,9 @@ import * as mongoose from "mongoose";
 
 import { INFORMATION_DTO } from "../../../DTO";
 import { UserModel } from "../../../model/users";
+import { getKindOfGenaration } from "../../../service/user";
 
-export const ranking = {
+export const userRanking = {
   type: "User",
   args: { criteria: stringArg(), count: intArg(), page: intArg() },
   resolve: async (_: any, args: INFORMATION_DTO.GetRankingInput, __: any) => {
@@ -24,5 +25,18 @@ export const ranking = {
 };
 
 export const hasGeneration = {
-  type: "",
+  type: "Generation",
+  resolve: async (_: any, __: any, ___: any) => {
+    const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
+      useFindAndModify: false,
+      useNewUrlParser: true,
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+    });
+    const result = await getKindOfGenaration();
+    if (result) {
+      db.disconnect();
+      return result;
+    }
+  },
 };
