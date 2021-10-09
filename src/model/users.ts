@@ -4,7 +4,7 @@ import {
   prop,
   DocumentType,
 } from "@typegoose/typegoose";
-import { ModelType } from "@typegoose/typegoose/lib/types";
+import { BeAnObject, ModelType } from "@typegoose/typegoose/lib/types";
 
 import * as mongoose from "mongoose";
 
@@ -60,22 +60,22 @@ export class Users {
 
   //section 5
   @prop({ required: false })
-  public company?: string | null;
+  public company?: string;
 
   @prop({ required: false })
-  public blog?: string | null;
+  public blog?: string;
 
   @prop({ required: false })
-  public location?: string | null;
+  public location?: string;
 
   @prop({ required: false })
-  public email?: string | null;
+  public email?: string;
 
   @prop({ required: false })
-  public bio?: string | null;
+  public bio?: string;
 
   @prop({ required: false })
-  public twitter_username?: string | null;
+  public twitter_username?: string;
 
   // sectino
 
@@ -103,7 +103,7 @@ export class Users {
   public async updateActivity(
     this: DocumentType<Users>,
     arg: UserDTO.UserUpdateInput
-  ): Promise<void> {
+  ): Promise<DocumentType<Users, BeAnObject> | undefined> {
     const {
       contributions,
       pullRequests,
@@ -133,7 +133,7 @@ export class Users {
     this.stared = stared;
     this.forked = forked;
 
-    this.name = name;
+    this.name = name ?? " ";
     this.avatar_url = avatar_url;
 
     this.following = following;
@@ -143,13 +143,17 @@ export class Users {
     this.public_repos = public_repos;
     this.public_gists = public_gists;
 
-    this.company = company;
-    this.blog = blog;
-    this.location = location;
-    this.email = email;
-    this.bio = bio;
-    this.twitter_username = twitter_username;
-    await this.save();
+    this.company = company ?? undefined;
+    this.blog = blog ?? undefined;
+    this.location = location ?? undefined;
+    this.email = email ?? undefined;
+    this.bio = bio ?? undefined;
+    this.twitter_username = twitter_username ?? undefined;
+    try {
+      return this.save();
+    } catch (e) {
+      console.error(e);
+    }
   }
   public async updateGeneration(
     this: DocumentType<Users>,
@@ -167,7 +171,7 @@ export class Users {
     this: ModelType<Users> & typeof Users,
     options: INFORMATION_DTO.GetRankingInput
   ): Promise<Array<DocumentType<Users>>> {
-    const userList = await this.find()
+    const userList = await this.find({ certified: true })
       .sort(INFORMATION_DTO.RankingSortCriteria[options.criteria])
       .skip((options.page - 1) * options.count)
       .limit(options.count)

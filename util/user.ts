@@ -5,6 +5,7 @@ import { CodeModel } from "../src/model/code";
 import { UserModel, Users } from "../src/model/users";
 import { UserDTO } from "../src/DTO";
 import { GithubAPI } from "../src/util";
+import { BeAnObject } from "@typegoose/typegoose/lib/types";
 
 export interface CreateUserInterface {
   access_token: string;
@@ -71,15 +72,12 @@ interface RepositoriesNode {
   stargazers: { totalCount: number };
 }
 
-export const updateUserInformation: Function = async (nickname: string) => {
-  console.log(nickname);
-  const user = await UserModel.findOne({ nickname: nickname, certified: true });
-  if (!user) return;
-  console.log("Success get user");
-  const userInform = await GithubAPI.getActivityByUser(nickname);
-  console.log("Success get user Inform");
+export const updateUserInformation: Function = async (
+  user: DocumentType<Users, BeAnObject>
+) => {
+  const { nickname } = user;
+  const userInform = await GithubAPI.getActivityByUser(user.nickname);
   const repositories = userInform.repositories.nodes;
-
   const userActivityData: UserDTO.UserUpdateActivityInput = {
     contributions:
       userInform.contributionsCollection.contributionCalendar
@@ -107,25 +105,48 @@ export const updateUserInformation: Function = async (nickname: string) => {
   const userInformData = await GithubAPI.getUserByNickName(nickname);
 
   const userData = Object.assign({}, userActivityData, userInformData);
-  await user?.updateActivity(userData);
-  console.log(user);
+  const dataSet = await user.updateActivity(userData);
+  return dataSet
+};
+
+export const updateUserListInformation: Function = async (
+  userList: DocumentType<Users, BeAnObject>[]
+) => {
+  return Promise.all(
+    userList.map((u: DocumentType<Users>) => {
+      const { nickname } = u;
+      console.info(`${nickname} 처리 중`);
+      try {
+        return updateUserInformation(u);
+      } catch (e) {
+        console.log(e);
+        return nickname;
+      }
+    })
+  );
 };
 
 export const updateAllUserInformation: Function = async () => {
-  const userList = await getAllUser();
-  userList.map(async (u: DocumentType<Users>) => {
-    const { nickname } = u;
-    console.info(`${nickname} 처리 중`);
-    await updateUserInformation(u.nickname);
+  const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
+    useFindAndModify: true,
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
   });
-};
 
-const getAllUser: Function = async () => {
-  const userList = await UserModel.find({}).exec();
-  return userList;
+  const userList = await UserModel.find({ certified: true }).exec();
+  console.log(userList.length, "명이 등록되어 있음");
+  const data = await updateUserListInformation(userList);
+  if (data) {
+    console.log(data);
+    db.disconnect();
+  }
+  return;
 };
 
 export const deleteRemainNotCertifiedUser: Function =
   async (): Promise<void> => {
     await UserModel.deleteMany({ certified: false });
+    console.log("인증처리가 되지않은 유저들 삭제 완료");
+    return;
   };
