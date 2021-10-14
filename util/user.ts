@@ -81,8 +81,7 @@ export const updateUserInformation: Function = async (
   const userActivityData: UserDTO.UserUpdateActivityInput = {
     contributions:
       userInform.contributionsCollection.contributionCalendar
-        .totalContributions +
-      userInform.contributionsCollection.restrictedContributionsCount,
+        .totalContributions,
     pullRequests: userInform.pullRequests.totalCount,
     issues: userInform.issues.totalCount,
     repositoriesContributedTo: userInform.repositoriesContributedTo.totalCount,

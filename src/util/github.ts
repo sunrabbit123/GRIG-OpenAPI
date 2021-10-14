@@ -16,7 +16,6 @@ const getGraphQLApi: Function = (variables: Object) => {
     query userInfo($login: String!) {
       user(login: $login) {
         contributionsCollection {
-          restrictedContributionsCount
           contributionCalendar{
             totalContributions
         }
