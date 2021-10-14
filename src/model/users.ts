@@ -172,15 +172,14 @@ export class Users {
     options: INFORMATION_DTO.GetRankingInput
   ): Promise<Array<DocumentType<Users>>> {
     const generationOption = { generation: options.generation };
-    const userList = await this.find(
-      Object.assign(
-        {},
-        {
-          certified: true,
-        },
-        options.generation == 0 ? {} : generationOption
-      )
-    )
+    const option = Object.assign(
+      {},
+      {
+        certified: true,
+      },
+      options.generation == 0 ? {} : generationOption
+    );
+    const userList = await this.find(option)
       .sort(INFORMATION_DTO.RankingSortCriteria[options.criteria])
       .skip((options.page - 1) * options.count)
       .limit(options.count)

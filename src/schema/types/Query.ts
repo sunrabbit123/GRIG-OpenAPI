@@ -4,6 +4,6 @@ import * as q from "./queries";
 export const Query = queryType({
   definition(t) {
     t.list.field("ranking", q.userRanking);
-    t.list.field("generation", q.hasGeneration);
+    t.list.field("generations", q.hasGeneration);
   },
 });
