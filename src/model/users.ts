@@ -178,9 +178,6 @@ export class Users {
         {
           certified: true,
         },
-        {
-          generation: { $exists: false },
-        },
         options.generation == 0 ? {} : generationOption
       )
     )
