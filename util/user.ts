@@ -81,8 +81,7 @@ export const updateUserInformation: Function = async (
   const userActivityData: UserDTO.UserUpdateActivityInput = {
     contributions:
       userInform.contributionsCollection.contributionCalendar
-        .totalContributions +
-      userInform.contributionsCollection.restrictedContributionsCount,
+        .totalContributions,
     pullRequests: userInform.pullRequests.totalCount,
     issues: userInform.issues.totalCount,
     repositoriesContributedTo: userInform.repositoriesContributedTo.totalCount,
@@ -106,7 +105,7 @@ export const updateUserInformation: Function = async (
 
   const userData = Object.assign({}, userActivityData, userInformData);
   const dataSet = await user.updateActivity(userData);
-  return dataSet
+  return dataSet;
 };
 
 export const updateUserListInformation: Function = async (
@@ -138,7 +137,6 @@ export const updateAllUserInformation: Function = async () => {
   console.log(userList.length, "명이 등록되어 있음");
   const data = await updateUserListInformation(userList);
   if (data) {
-    console.log(data);
     db.disconnect();
   }
   return;
