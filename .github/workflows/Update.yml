@@ -16,3 +16,4 @@ jobs:
         run: yarn update
         env:
           MongoDBUrl: ${{ secrets.MONGODBURL }}
+          githubToken: ${{ secrets.API_TOKEN }}
