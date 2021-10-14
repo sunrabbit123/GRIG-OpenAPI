@@ -7,4 +7,3 @@ export const getKindOfGenaration: Function = async () => {
     { $group: { _id: "$generation", count: { $sum: 1 } } },
   ]);
 };
-// { $exists: false }
