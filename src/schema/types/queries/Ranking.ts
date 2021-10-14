@@ -7,7 +7,12 @@ import { getKindOfGenaration } from "../../../service/user";
 
 export const userRanking = {
   type: "User",
-  args: { criteria: stringArg(), count: intArg(), page: intArg() },
+  args: {
+    criteria: stringArg(),
+    count: intArg(),
+    page: intArg(),
+    generation: intArg(),
+  },
   resolve: async (_: any, args: INFORMATION_DTO.GetRankingInput, __: any) => {
     mongoose
       .connect(process.env.MongoDBUrl ?? "", {
