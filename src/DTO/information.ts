@@ -27,4 +27,5 @@ export interface GetRankingInput {
   count: number;
   page: number;
   criteria: string;
+  generation: number;
 }
