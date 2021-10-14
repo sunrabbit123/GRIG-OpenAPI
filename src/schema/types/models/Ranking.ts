@@ -13,7 +13,7 @@ export const Ranking = objectType({
     t.string("foo");
     t.list.field("userList", {
       type: "User",
-      args: { criteria: stringArg(), count: intArg(), page: intArg() },
+      args: { criteria: stringArg(), count: intArg(), page: intArg(), generation: intArg()},
       resolve: async (_, args: INFORMATION_DTO.GetRankingInput, __) => {
         const db = await mongoose.connect(process.env.MongoDBUrl ?? "", {
           useFindAndModify: false,
