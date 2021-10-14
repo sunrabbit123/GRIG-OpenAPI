@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="./styles/graphdoc.css" />
-    <title>__EnumValue</title>
+    <title>Ranking</title>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono:400,700" rel="stylesheet"><link type="text/css" rel="stylesheet" href="./assets/code.css" /><link type="text/css" rel="stylesheet" href="./assets/require-by.css" />
 </head>
 <body class="slds-scrollable--y">
@@ -75,7 +75,7 @@
                 Generation
             </a>
         </li>
-        <li  title="Ranking">
+        <li class="slds-is-active" title="Ranking">
             <a href="ranking.doc.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 Ranking
             </a>
@@ -90,7 +90,7 @@
                 __Directive
             </a>
         </li>
-        <li class="slds-is-active" title="__EnumValue">
+        <li  title="__EnumValue">
             <a href="enumvalue.spec.html" class="slds-navigation-list--vertical__action slds-text-link--reset slds-truncate">
                 __EnumValue
             </a>
@@ -156,9 +156,8 @@
     </div>
     <div class="container">
         <p class="slds-text-title--caps slds-text-color--weak">OBJECT</p>
-        <h1 class="slds-text-heading--large">__EnumValue</h1>
-        <div class="slds-text-body--regular"><p>One possible value for a given Enum. Enum values are unique values, not a placeholder for a string or numeric value. However an Enum value is returned in a JSON response as a string.</p>
-</div>
+        <h1 class="slds-text-heading--large">Ranking</h1>
+        <div class="slds-text-body--regular"></div>
     </div>
 </section>
 <section>
@@ -169,7 +168,7 @@
             </a>
             GraphQL Schema definition
         </h2>
-        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">__EnumValue</span> {</li><li></li><li><span class="tab"><span class="meta">name</span>: <a class="support type" href="string.doc.html">String</a>! </span></li><li></li><li><span class="tab"><span class="meta">description</span>: <a class="support type" href="string.doc.html">String</a> </span></li><li></li><li><span class="tab"><span class="meta">isDeprecated</span>: <a class="support type" href="boolean.doc.html">Boolean</a>! </span></li><li></li><li><span class="tab"><span class="meta">deprecationReason</span>: <a class="support type" href="string.doc.html">String</a> </span></li><li>}</li></ul></code>
+        <code class="highlight"><ul class="code" style="padding-left:42px"><li><span class="keyword operator ts">type</span> <span class="identifier">Ranking</span> {</li><li></li><li><span class="tab"><span class="meta">foo</span>: <a class="support type" href="string.doc.html">String</a> </span></li><li></li><li><span class="tab"><span class="comment line"># Arguments</span></span></li><li><span class="tab"><span class="comment line">#   <strong>criteria</strong>: [<strong>Not documented</strong>]</span></span></li><li><span class="tab"><span class="comment line">#   <strong>count</strong>: [<strong>Not documented</strong>]</span></span></li><li><span class="tab"><span class="comment line">#   <strong>page</strong>: [<strong>Not documented</strong>]</span></span></li><li><span class="tab"><span class="meta">userList</span>(<span class="meta">criteria</span>: <a class="support type" href="string.doc.html">String</a>, <span class="meta">count</span>: <a class="support type" href="int.doc.html">Int</a>, <span class="meta">page</span>: <a class="support type" href="int.doc.html">Int</a>): [<a class="support type" href="user.doc.html">User</a>] </span></li><li></li><li><span class="tab"><span class="meta">generations</span>: [<a class="support type" href="generation.doc.html">Generation</a>] </span></li><li>}</li></ul></code>
     </div>
 </section>
 <section>
@@ -180,11 +179,7 @@
             </a>
             Require by
         </h2>
-        <ul class="require-by"><li><a href="type.spec.html" title="__Type - The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
-
-Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.">__Type<em>The fundamental unit of any GraphQL Schema is the type. There are many kinds of types in GraphQL as represented by the `__TypeKind` enum.
-
-Depending on the kind of a type, certain fields describe information about that type. Scalar types provide no information beyond a name, description and optional `specifiedByUrl`, while Enum types provide their values. Object and Interface types provide the fields they describe. Abstract types, Union and Interface, provide the Object types possible at runtime. List and NonNull types compose other types.</em></a><li></ul>
+        <div class="require-by anyone">This element is not required by anyone</div>
     </div>
 </section>
 <footer>
