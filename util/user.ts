@@ -77,6 +77,9 @@ export const updateUserInformation: Function = async (
 ) => {
   const { nickname } = user;
   const userInform = await GithubAPI.getActivityByUser(user.nickname);
+  if (userInform == null) {
+    return;
+  }
   const repositories = userInform.repositories.nodes;
   const userActivityData: UserDTO.UserUpdateActivityInput = {
     contributions:
