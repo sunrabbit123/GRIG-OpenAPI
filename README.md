@@ -1,7 +1,7 @@
 https://github.com/GRI-G/GRIG-API
 해당 레포지토리로 이동
 
-# ~~🎖 Github-Rangkin-for-GSM ~~
+~~🎖 Github-Rangkin-for-GSM ~~
 GraphQL Link : [https://graphql.org/](https://graphql.org/)  
 
 GSM의 깃헙 랭킹을 구현하는 OpenAPI 서버입니다.  
